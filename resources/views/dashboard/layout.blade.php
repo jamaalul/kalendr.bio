@@ -10,7 +10,7 @@
 </head>
 
 <body class="flex flex-col bg-white w-screen min-h-screen">
-    @include('dashboard.navbar', ['state' => 'mendatang'])
+    @include('dashboard.navbar', ['state' => $state])
     <div class="flex-1 bg-gray-100 mx-4 mb-4 border rounded-lg"></div>
 </body>
 

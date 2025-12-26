@@ -12,15 +12,17 @@
             </svg>
         </div>
     </div>
-    <div class="flex items-center gap-3 md:gap-4 w-full overflow-x-auto">
+    <div class="flex items-center gap-3 md:gap-5 w-full overflow-x-auto">
         <div class="py-4 h-full whitespace-nowrap" id="agenda">
-            <a href="" class="font-medium text-gray-500 text-sm md:text-base no-underline">Agenda</a>
+            <a href="/dashboard/agenda" class="font-medium text-gray-500 text-sm md:text-base no-underline">Agenda</a>
         </div>
         <div class="py-4 h-full whitespace-nowrap" id="kalender">
-            <a href="" class="font-medium text-gray-500 text-sm md:text-base no-underline">Kalender</a>
+            <a href="/dashboard/kalender"
+                class="font-medium text-gray-500 text-sm md:text-base no-underline">Kalender</a>
         </div>
         <div class="py-4 h-full whitespace-nowrap" id="mendatang">
-            <a href="" class="font-medium text-gray-500 text-sm md:text-base no-underline">Mendatang</a>
+            <a href="/dashboard/mendatang"
+                class="font-medium text-gray-500 text-sm md:text-base no-underline">Mendatang</a>
         </div>
     </div>
 

@@ -10,8 +10,8 @@ Route::get('/', function () {
     return Auth::check() ? redirect('/dashboard') : view('landing');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard.layout');
+Route::get('/dashboard/{state?}', function ($state = 'agenda') {
+    return view('dashboard.layout', compact('state'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
