@@ -16,6 +16,12 @@ class EventTypeAvailability extends Model
         'end_time',
     ];
 
+    /*
+     |--------------------------------------------------------------------------
+     | Relationships
+     |--------------------------------------------------------------------------
+     */
+    
     public function eventType()
     {
         return $this->belongsTo(EventType::class);
