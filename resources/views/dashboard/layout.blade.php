@@ -11,7 +11,9 @@
 
 <body class="flex flex-col bg-white w-screen min-h-screen">
     @include('dashboard.navbar', ['state' => $state])
-    <div class="flex-1 bg-gray-100 mx-4 mb-4 border rounded-lg"></div>
+    <div class="flex flex-col flex-1 items-center bg-gray-100 mx-4 mb-4 p-4 border rounded-lg">
+        @include('dashboard.' . $state . '.index')
+    </div>
 </body>
 
 </html>
