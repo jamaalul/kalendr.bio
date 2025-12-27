@@ -6,13 +6,16 @@ use App\Http\Controllers\AvailabilityController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+
 Route::get('/', function () {
     return Auth::check() ? redirect('/dashboard') : view('landing');
 });
 
-Route::get('/dashboard/{state?}', function ($state = 'agenda') {
-    return view('dashboard.layout', compact('state'));
+Route::get('/dashboard', function () {
+    $state = 'dashboard';
+    return view('dashboard.index', compact('state'));
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,6 +34,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/event-types', [EventTypeController::class, 'index']);
     Route::get('/event-types/create', [EventTypeController::class, 'create']);
     Route::post('/event-types', [EventTypeController::class, 'store']);
+    Route::get('/event-types/{eventType}/edit', [EventTypeController::class, 'edit']);
+    Route::put('/event-types/{eventType}', [EventTypeController::class, 'update']);
+
 
     Route::get('/event-types/{eventType}/availability', [AvailabilityController::class, 'index']);
     Route::post('/event-types/{eventType}/availability', [AvailabilityController::class, 'store']);

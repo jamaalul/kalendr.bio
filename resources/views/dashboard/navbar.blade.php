@@ -14,7 +14,7 @@
     </div>
     <div class="flex items-center gap-3 md:gap-5 w-full overflow-x-auto">
         <div class="py-4 h-full whitespace-nowrap" id="agenda">
-            <a href="/dashboard/agenda" class="font-medium text-gray-500 text-sm md:text-base no-underline">Agenda</a>
+            <a href="/event-types" class="font-medium text-gray-500 text-sm md:text-base no-underline">Agenda</a>
         </div>
         <div class="py-4 h-full whitespace-nowrap" id="kalender">
             <a href="/dashboard/kalender"

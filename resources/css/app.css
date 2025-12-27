@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Poppins:wght@500;600;700&display=swap');
 
+/* Flatpickr */
+@import 'flatpickr/dist/flatpickr.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
