@@ -45,7 +45,7 @@
                     <label for="is_active" class="flex items-center gap-2 cursor-pointer p-2">
                         <input type="checkbox" name="is_active" id="is_active" value="1"
                             {{ old('is_active', $eventType->is_active) ? 'checked' : '' }}
-                            class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                            class="w-4 h-4 text-black border-gray-300 rounded focus:ring-black">
                         <span class="font-medium text-gray-700 text-sm">Aktifkan Agenda</span>
                     </label>
                     <p class="mt-1 text-gray-500 text-sm">Agenda yang tidak aktif tidak akan dapat dibooking oleh orang lain.</p>
@@ -59,8 +59,7 @@
                 <div class="flex gap-2">
                     <button type="submit"
                         class="flex self-start gap-2 bg-black hover:bg-gray-800 px-3 py-2 rounded-md font-medium text-white text-base transition-all duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                         </svg>
                         Simpan Perubahan
