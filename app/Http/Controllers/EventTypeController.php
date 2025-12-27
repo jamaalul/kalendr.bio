@@ -30,6 +30,7 @@ class EventTypeController extends Controller
             'name' => 'required|string|max:255',
             'duration_minutes' => 'required|integer|min:5|max:480',
             'timezone' => 'required|timezone',
+            'is_active' => 'nullable|boolean',
             'availability' => 'nullable|array',
             'availability.*.*.start_time' => 'nullable|date_format:H:i',
             'availability.*.*.end_time' => 'nullable|date_format:H:i',
@@ -44,6 +45,7 @@ class EventTypeController extends Controller
                 'name' => $validated['name'],
                 'duration_minutes' => $validated['duration_minutes'],
                 'timezone' => $validated['timezone'],
+                'is_active' => $request->has('is_active') ? true : false,
             ]);
 
             $this->syncAvailabilities($eventType, $request->input('availability', []));
@@ -93,6 +95,7 @@ class EventTypeController extends Controller
             'name' => 'required|string|max:255',
             'duration_minutes' => 'required|integer|min:5|max:480',
             'timezone' => 'required|timezone',
+            'is_active' => 'nullable|boolean',
             'availability' => 'nullable|array',
             'availability.*.*.start_time' => 'nullable|date_format:H:i',
             'availability.*.*.end_time' => 'nullable|date_format:H:i',
@@ -107,6 +110,7 @@ class EventTypeController extends Controller
                 'name' => $validated['name'],
                 'duration_minutes' => $validated['duration_minutes'],
                 'timezone' => $validated['timezone'],
+                'is_active' => $request->has('is_active') ? true : false,
             ]);
 
             $this->syncAvailabilities($eventType, $request->input('availability', []));

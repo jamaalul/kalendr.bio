@@ -4,9 +4,6 @@
 
 @section('content')
     <div class="flex flex-col gap-4 w-full lg:max-w-[80%]">
-        <div class="flex justify-between items-center w-full">
-            <h1 class="text-gray-500 text-base">Dashboard > Event Types > Edit</h1>
-        </div>
         <div class="bg-white p-6 border rounded-md">
             <h2 class="mb-4 font-medium text-xl">Edit Agenda</h2>
             <form method="POST" action="/event-types/{{ $eventType->id }}" class="flex flex-col gap-4">
@@ -41,6 +38,18 @@
                         class="block shadow-sm mt-1 px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:outline-none focus:ring-indigo-500 w-full"
                         required>
                     @error('timezone')
+                        <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="is_active" class="flex items-center gap-2 cursor-pointer p-2">
+                        <input type="checkbox" name="is_active" id="is_active" value="1"
+                            {{ old('is_active', $eventType->is_active) ? 'checked' : '' }}
+                            class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                        <span class="font-medium text-gray-700 text-sm">Aktifkan Agenda</span>
+                    </label>
+                    <p class="mt-1 text-gray-500 text-sm">Agenda yang tidak aktif tidak akan dapat dibooking oleh orang lain.</p>
+                    @error('is_active')
                         <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
                     @enderror
                 </div>

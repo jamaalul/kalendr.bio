@@ -19,7 +19,7 @@
         <div class="gap-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
             @foreach ($agendas as $agenda)
                 <div class="flex flex-col justify-between bg-white hover:shadow-md p-5 border rounded-md h-48 hover:scale-[102%] transition-all duration-200 cursor-pointer"
-                    onclick="window.location.href='/event-types/{{ $agenda['slug'] }}/edit'">
+                    onclick="window.location.href='/event-types/{{ $agenda['id'] }}/edit'">
                     <div class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">

@@ -64,6 +64,18 @@
                             class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
                             required placeholder="Asia/Jakarta">
                     </div>
+
+                    <div>
+                        <label for="is_active" class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" name="is_active" id="is_active" value="1" checked
+                                class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                            <span class="font-medium text-gray-700 text-sm">Aktifkan Agenda</span>
+                        </label>
+                        <p class="mt-1 text-gray-500 text-sm">Agenda yang tidak aktif tidak akan dapat dibooking oleh orang lain.</p>
+                        @error('is_active')
+                            <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
 
                 <!-- Availability Section -->
