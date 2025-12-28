@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class EventTypeAvailability extends Model
 {
@@ -16,12 +16,6 @@ class EventTypeAvailability extends Model
         'end_time',
     ];
 
-    /*
-     |--------------------------------------------------------------------------
-     | Relationships
-     |--------------------------------------------------------------------------
-     */
-    
     public function eventType()
     {
         return $this->belongsTo(EventType::class);

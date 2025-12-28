@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -19,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -49,5 +51,28 @@ class User extends Authenticatable
     public function eventTypes()
     {
         return $this->hasMany(EventType::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (empty($user->username)) {
+                $base = Str::slug($user->name);
+                $user->username = static::generateUniqueUsername($base);
+            }
+        });
+    }
+
+    protected static function generateUniqueUsername(string $base): string
+    {
+        $username = $base;
+        $counter = 1;
+
+        while (static::where('username', $username)->exists()) {
+            $username = $base . '-' . $counter;
+            $counter++;
+        }
+
+        return $username;
     }
 }

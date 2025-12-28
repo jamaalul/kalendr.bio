@@ -9,9 +9,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex flex-col bg-white w-screen min-h-screen max-w-screen overflow-x-hidden">
+<body class="flex flex-col bg-white w-screen max-w-screen min-h-screen overflow-x-hidden">
     @include('dashboard.navbar', ['state' => $state ?? 'agenda'])
-    <div class="flex flex-col flex-1 items-center bg-gray-100 mx-2 md:mx-4 mb-2 md:mb-4 p-2 md:p-4 border rounded-lg">
+    <div
+        class="flex flex-col flex-1 items-center bg-gray-100 mx-2 md:mx-4 mb-2 md:mb-4 p-2 md:p-4 border rounded-lg overflow-y-scroll">
         @yield('content')
     </div>
 </body>

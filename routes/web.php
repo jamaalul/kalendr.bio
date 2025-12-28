@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,5 +42,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/event-types/{eventType}/availability', [AvailabilityController::class, 'index']);
     Route::post('/event-types/{eventType}/availability', [AvailabilityController::class, 'store']);
 });
+
+/*
+ |--------------------------------------------------------------------------
+ | Public Booking
+ |--------------------------------------------------------------------------
+*/
+
+Route::get('/{username}/{eventTypeSlug}', [BookingController::class, 'show']);
+Route::post('/{username}/{eventTypeSlug}/book', [BookingController::class, 'book']);
 
 require __DIR__.'/auth.php';
