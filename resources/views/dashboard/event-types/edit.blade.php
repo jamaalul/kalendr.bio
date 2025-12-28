@@ -33,10 +33,20 @@
                 </div>
                 <div>
                     <label for="timezone" class="block font-medium text-gray-700 text-sm">Zona Waktu</label>
-                    <input type="text" name="timezone" id="timezone" 
-                        value="{{ old('timezone', $eventType->timezone) }}"
+                    <select name="timezone" id="timezone"
                         class="block shadow-sm mt-1 px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:outline-none focus:ring-indigo-500 w-full"
                         required>
+                        @foreach ([
+        'Asia/Jakarta' => 'Waktu Indonesia Barat (WIB)',
+        'Asia/Makassar' => 'Waktu Indonesia Tengah (WITA)',
+        'Asia/Jayapura' => 'Waktu Indonesia Timur (WIT)',
+    ] as $tzId => $tzName)
+                            <option value="{{ $tzId }}"
+                                {{ old('timezone', $eventType->timezone) === $tzId ? 'selected' : '' }}>
+                                {{ $tzName }}
+                            </option>
+                        @endforeach
+                    </select>
                     @error('timezone')
                         <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
                     @enderror

@@ -40,7 +40,8 @@
 
         <div class="flex md:flex-row flex-col">
 
-            <div class="p-8 border-gray-100 md:border-r-2 border-b-2 md:border-b-0 md:w-1/3">
+            <div class="p-8 border-gray-100 md:border-r-2 border-b-2 md:border-b-0 transition-all duration-300 ease-in-out"
+                :class="selectedDate ? 'md:w-[20%]' : 'md:w-1/3'">
 
                 <div class="mb-4 font-medium text-gray-500 text-sm">
                     {{ $eventType->user->name }}
@@ -67,7 +68,8 @@
                 @endif
             </div>
 
-            <div class="relative p-8 md:w-2/3 min-h-[500px]">
+            <div class="relative p-8 min-h-[500px] transition-all duration-300 ease-in-out"
+                :class="selectedDate ? 'md:w-[80%]' : 'md:w-2/3'">
 
                 <h2 class="mb-6 font-bold text-xl">Pilih Tanggal & Waktu</h2>
 
@@ -123,7 +125,13 @@
                         </div>
 
                         <div class="mt-8 text-gray-500 text-sm">
-                            Zona Waktu: <span class="font-medium text-gray-700">{{ $viewerTz }}</span>
+                            <label for="timezone" class="block mb-1 text-xs uppercase tracking-wide">Zona Waktu</label>
+                            <select id="timezone" x-model="currentTz" @change="changeTimezone"
+                                class="bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5">
+                                @foreach ($timezones as $tzId => $tzName)
+                                    <option value="{{ $tzId }}">{{ $tzName }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -146,6 +154,50 @@
                         </div>
                     </div>
 
+                    <!-- Booking Form (Right Side / Overlay) -->
+                    <div class="md:w-[300px]" x-show="selectedSlot" x-transition x-cloak>
+                        <div class="mb-6">
+                            <button @click="selectedSlot = null"
+                                class="flex items-center gap-2 mb-4 text-gray-500 hover:text-gray-900 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                Batal
+                            </button>
+                            <h3 class="mb-1 font-bold text-gray-900 text-xl">Konfirmasi Reservasi</h3>
+                            <div class="mb-6 text-gray-600">
+                                <span x-text="formatDateHuman(selectedDate)"></span><br>
+                                <span class="font-medium text-gray-900"
+                                    x-text="formatTime(selectedSlot) + ' - ' + formatTime(getEndTime(selectedSlot))"></span>
+                            </div>
+
+                            <form action="/{{ $eventType->user->username }}/{{ $eventType->slug }}/book" method="POST"
+                                class="space-y-4">
+                                @csrf
+                                <input type="hidden" name="starts_at_utc" :value="getSlotUtc(selectedSlot)">
+                                <input type="hidden" name="guest_timezone" value="{{ $viewerTz }}">
+
+                                <div>
+                                    <label class="block mb-1 font-medium text-gray-700 text-sm">Name</label>
+                                    <input type="text" name="guest_name" required
+                                        class="shadow-sm border-gray-300 focus:border-black rounded-md focus:ring-black w-full">
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1 font-medium text-gray-700 text-sm">Email</label>
+                                    <input type="email" name="guest_email" required
+                                        class="shadow-sm border-gray-300 focus:border-black rounded-md focus:ring-black w-full">
+                                </div>
+
+                                <button type="submit"
+                                    class="bg-black hover:bg-gray-800 py-3 rounded-lg w-full font-medium text-white transition-colors">
+                                    Konfirmasi
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -158,7 +210,14 @@
                 currentDate: new Date(),
                 selectedDate: null,
                 selectedSlot: null, // Track the selected time
+                currentTz: '{{ $viewerTz }}',
                 slots: slots,
+
+                changeTimezone() {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('timezone', this.currentTz);
+                    window.location.href = url.toString();
+                },
 
                 init() {
                     this.slotsByDate = this.slots.reduce((acc, slot) => {
@@ -230,18 +289,40 @@
                 },
 
                 formatDateHuman(dateString) {
-                    return new Date(dateString).toLocaleDateString('id-ID', {
+                    // dateString is typically YYYY-MM-DD from the calendar loop
+                    // But wait, the calendar days are generated from local server time or what?
+                    // The calendar generation logic in JS `days` loop uses `new Date(year, month, i)`. 
+                    // This creates dates in browser local time.
+                    // However, `selectedDate` is a string "YYYY-MM-DD".
+                    // When we display it, we just want to format YYYY-MM-DD into "Monday, 29 December".
+                    // We can just append a time and use the TZ.
+                    return new Date(dateString + 'T00:00:00').toLocaleDateString('id-ID', {
                         weekday: 'long',
                         day: 'numeric',
-                        month: 'long'
+                        month: 'long',
+                        // timeZone: this.currentTz // Not strictly necessary for just date if we parse correctly, but safer
                     });
                 },
 
                 formatTime(iso) {
                     return new Date(iso).toLocaleTimeString('id-ID', {
                         hour: '2-digit',
-                        minute: '2-digit'
+                        minute: '2-digit',
+                        timeZone: this.currentTz
                     });
+                },
+
+                getEndTime(startIso) {
+                    // This is just for display purposes, precise calculation is on backend
+                    const d = new Date(startIso);
+                    d.setMinutes(d.getMinutes() + {{ $eventType->duration_minutes }});
+                    return d.toISOString();
+                },
+
+                getSlotUtc(startIso) {
+                    // find the slot object to get the UTC value
+                    const slot = this.slots.find(s => s.starts_at_viewer === startIso);
+                    return slot ? slot.starts_at_utc : '';
                 }
             }
         }

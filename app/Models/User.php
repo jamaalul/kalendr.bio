@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'username',
         'email',
+        'timezone',
         'password',
     ];
 
@@ -51,6 +52,18 @@ class User extends Authenticatable
     public function eventTypes()
     {
         return $this->hasMany(EventType::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasManyThrough(
+            Booking::class,
+            EventType::class,
+            'user_id',       // Foreign key on event_types table
+            'event_type_id', // Foreign key on bookings table
+            'id',            // Local key on users table
+            'id'             // Local key on event_types table
+        );
     }
 
     protected static function booted()

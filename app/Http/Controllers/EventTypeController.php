@@ -12,10 +12,13 @@ class EventTypeController extends Controller
 {
     public function index()
     {
-        $eventTypes = Auth::user()->eventTypes->sortByDesc('created_at');
+        $user  = Auth::user();
+
+        $eventTypes = $user->eventTypes->sortByDesc('created_at');
+        $bookings = $user->bookings()->select('bookings.*')->with('eventType')->where('status', 'scheduled')->get()->sortByDesc('created_at');
         $state = 'agenda';
 
-        return view('dashboard.event-types.index', ['agendas' => $eventTypes, 'state' => $state]);
+        return view('dashboard.event-types.index', ['agendas' => $eventTypes, 'state' => $state, 'bookings' => $bookings]);
     }
 
     public function create()

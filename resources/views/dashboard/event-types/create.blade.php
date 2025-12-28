@@ -60,9 +60,20 @@
                             </svg>
                             Zona Waktu
                         </label>
-                        <input type="text" name="timezone" id="timezone" value="Asia/Jakarta"
+                        <select name="timezone" id="timezone"
                             class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
-                            required placeholder="Asia/Jakarta">
+                            required>
+                            @foreach ([
+        'Asia/Jakarta' => 'Waktu Indonesia Barat (WIB)',
+        'Asia/Makassar' => 'Waktu Indonesia Tengah (WITA)',
+        'Asia/Jayapura' => 'Waktu Indonesia Timur (WIT)',
+    ] as $tzId => $tzName)
+                                <option value="{{ $tzId }}"
+                                    {{ Auth::user()->timezone === $tzId ? 'selected' : '' }}>
+                                    {{ $tzName }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div>

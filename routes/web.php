@@ -51,5 +51,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/{username}/{eventTypeSlug}', [BookingController::class, 'show']);
 Route::post('/{username}/{eventTypeSlug}/book', [BookingController::class, 'book']);
+Route::get('/{username}/{eventTypeSlug}/book/{booking}', [BookingController::class, 'confirmation'])->name('booking.confirmation');
 
 require __DIR__.'/auth.php';

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('guest_timezone')->nullable(); // store guest tz for display/notifications
             $table->timestamp('starts_at'); // stored in UTC
             $table->timestamp('ends_at');   // stored in UTC
-            $table->string('status')->default('scheduled'); // scheduled|cancelled|completed
+            $table->string('status')->default('scheduled'); // scheduled|accepted|cancelled|completed
             $table->timestamps();
 
             // Useful indexes for queries and overlap checks

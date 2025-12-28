@@ -33,9 +33,9 @@
         @else
             <div class="flex gap-1">
                 <a href="/login"
-                    class="hover:bg-gray-50 px-5 py-2.5 border border-gray-200 rounded font-semibold text-sm transition">Masuk</a>
+                    class="hover:bg-gray-50 px-5 py-2.5 border border-gray-200 rounded font-semibold text-sm tracking-wide transition">Masuk</a>
                 <a href="/register"
-                    class="hover:bg-gray-50 px-5 py-2.5 border border-gray-200 rounded font-semibold text-sm transition">Daftar</a>
+                    class="hover:bg-gray-50 px-5 py-2.5 border border-gray-200 rounded font-semibold text-sm tracking-wide transition">Daftar</a>
             </div>
         @endauth
     </nav>

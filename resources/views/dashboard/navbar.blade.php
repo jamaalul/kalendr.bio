@@ -13,16 +13,21 @@
         </div>
     </div>
     <div class="flex items-center gap-3 md:gap-5 w-full overflow-x-auto">
+        <div class="py-4 h-full whitespace-nowrap" id="dashboard">
+            <a href="/dashboard"
+                class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Dashboard</a>
+        </div>
         <div class="py-4 h-full whitespace-nowrap" id="agenda">
-            <a href="/event-types" class="font-medium text-gray-500 text-sm md:text-base no-underline">Agenda</a>
+            <a href="/event-types"
+                class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Agenda</a>
         </div>
         <div class="py-4 h-full whitespace-nowrap" id="kalender">
             <a href="/dashboard/kalender"
-                class="font-medium text-gray-500 text-sm md:text-base no-underline">Kalender</a>
+                class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Kalender</a>
         </div>
         <div class="py-4 h-full whitespace-nowrap" id="mendatang">
             <a href="/dashboard/mendatang"
-                class="font-medium text-gray-500 text-sm md:text-base no-underline">Mendatang</a>
+                class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Mendatang</a>
         </div>
     </div>
 

@@ -24,15 +24,18 @@ class BookingController extends Controller
 
         // define the window to show (e.g., next 14 days)
         $from = Carbon::now(); // viewer's local tz not needed here for generation
-        $to = Carbon::now()->addDays(14);
+        $to = Carbon::now()->addDays(28);
 
         $slots = $slotGenerator->generate($eventType, $from, $to);
 
         // Convert slot times to viewer tz for display
-        $viewerTz = $request->cookie('viewer_timezone') ?? $request->session()->get('viewer_timezone') ?? null;
-        if (!$viewerTz) {
-            // fallback: try to read ?tz= query param (you should set via JS)
-            $viewerTz = $request->query('tz', $eventType->timezone);
+        $viewerTz = $request->query('timezone') ?? $request->cookie('viewer_timezone') ?? $request->session()->get('viewer_timezone') ?? $eventType->timezone;
+        
+        // Validate timezone
+        try {
+            new \DateTimeZone($viewerTz);
+        } catch (\Exception $e) {
+            $viewerTz = $eventType->timezone;
         }
 
         $displaySlots = $slots->map(function ($s) use ($viewerTz) {
@@ -44,7 +47,14 @@ class BookingController extends Controller
             ];
         });
 
-        return view('booking.show', compact('eventType', 'displaySlots', 'viewerTz'));
+
+        $timezones = [
+            'Asia/Jakarta' => 'Waktu Indonesia Barat (WIB)',
+            'Asia/Makassar' => 'Waktu Indonesia Tengah (WITA)',
+            'Asia/Jayapura' => 'Waktu Indonesia Timur (WIT)',
+        ];
+
+        return view('booking.show', compact('eventType', 'displaySlots', 'viewerTz', 'timezones'));
     }
 
     /**
@@ -106,6 +116,18 @@ class BookingController extends Controller
         // Mail::to($booking->guest_email)->send(...);
         // notify host...
 
-        return redirect()->route('booking.confirmation', [$user->username, $eventType->slug, 'id' => $booking->id]);
+        return redirect()->route('booking.confirmation', [$user->username, $eventType->slug, 'booking' => $booking->id]);
+    }
+
+    public function confirmation($username, $eventTypeSlug, Booking $booking)
+    {
+        $booking->load(['eventType.user']);
+
+        // Simple security check: ensure booking belongs to the event type url
+        if ($booking->eventType->slug !== $eventTypeSlug || $booking->eventType->user->username !== $username) {
+            abort(404);
+        }
+
+        return view('booking.confirmation', compact('booking'));
     }
 }
