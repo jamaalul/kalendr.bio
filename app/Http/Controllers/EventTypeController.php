@@ -15,7 +15,7 @@ class EventTypeController extends Controller
         $user  = Auth::user();
 
         $eventTypes = $user->eventTypes->sortByDesc('created_at');
-        $bookings = $user->bookings()->select('bookings.*')->with('eventType')->where('status', 'scheduled')->get()->sortByDesc('created_at');
+        $bookings = $user->bookings()->select('bookings.*')->with('eventType')->where('status', 'proposed')->get()->sortByDesc('created_at');
         $state = 'agenda';
 
         return view('dashboard.event-types.index', ['agendas' => $eventTypes, 'state' => $state, 'bookings' => $bookings]);

@@ -6,7 +6,7 @@
 
     <div class="flex flex-col gap-4 bg-red w-full lg:max-w-[80%] h-96">
         <div class="flex justify-between items-center w-full">
-            <h1 class="font-semibold text-xl">Daftar Agenda</h1>
+            <h1 class="font-semibold text-md md:text-xl">Daftar Agenda</h1>
             <button
                 class="flex justify-center items-center gap-2 bg-black hover:bg-gray-800 px-3 py-2 rounded-md font-medium text-white text-sm md:text-base transition-all duration-200"
                 onclick="window.location.href = '/event-types/create'">
@@ -43,7 +43,7 @@
             @endforeach
         </div>
         <div class="flex flex-col gap-4 mt-4 pb-2 md:pb-4 w-full">
-            <h1 class="font-semibold text-xl">Janji Baru</h1>
+            <h1 class="font-semibold text-md md:text-xl">Janji Baru</h1>
             @foreach ($bookings as $booking)
                 <div
                     class="flex justify-between items-center bg-white hover:shadow-sm p-6 border border-gray-200 rounded-md w-full transition-shadow duration-300">
@@ -83,14 +83,22 @@
                     </div>
 
                     <div class="flex flex-col gap-3 h-full">
-                        <button
-                            class="bg-gray-900 hover:bg-black shadow-sm px-5 py-2 rounded-lg font-medium text-white text-sm active:scale-95 transition-all">
-                            Terima
-                        </button>
-                        <button
-                            class="hover:bg-red-50 px-4 py-2 rounded-lg font-medium text-gray-500 hover:text-red-600 text-sm transition-all">
-                            Tolak
-                        </button>
+                        <form action="{{ route('booking.accept') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $booking->id }}">
+                            <button type="submit"
+                                class="bg-black hover:bg-gray-800 shadow-sm px-5 py-2 rounded-lg font-medium text-white text-sm active:scale-95 transition-all">
+                                Terima
+                            </button>
+                        </form>
+                        <form action="{{ route('booking.reject') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $booking->id }}">
+                            <button type="submit"
+                                class="hover:bg-red-100 px-5 py-2 rounded-lg w-full font-medium text-red-500 text-sm active:scale-95 transition-all">
+                                Tolak
+                            </button>
+                        </form>
                     </div>
                 </div>
             @endforeach

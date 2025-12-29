@@ -7,6 +7,7 @@ use App\Models\EventType;
 use App\Services\SlotGenerator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
 use Illuminate\Support\Facades\DB;
 
@@ -129,5 +130,33 @@ class BookingController extends Controller
         }
 
         return view('booking.confirmation', compact('booking'));
+    }
+
+    public function accept(Request $request)
+    {
+        $booking = Booking::findOrFail($request->input('id'));
+
+        if (Auth::user()->id !== $booking->eventType()->user_id) {
+            abort(403);
+        };
+        
+        $booking->status = 'accepted';
+        $booking->save();
+
+        return redirect()->route('dashboard.eventTypes');
+    }
+
+    public function reject(Request $request)
+    {
+        $booking = Booking::findOrFail($request->input('id'));
+
+        if (Auth::user()->id !== $booking->eventType()->user_id) {
+            abort(403);
+        };
+
+        $booking->status = 'rejected';
+        $booking->save();
+
+        return redirect()->route('dashboard.eventTypes');
     }
 }

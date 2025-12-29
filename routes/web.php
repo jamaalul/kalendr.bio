@@ -32,12 +32,14 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/event-types', [EventTypeController::class, 'index']);
+    Route::get('/event-types', [EventTypeController::class, 'index'])->name('dashboard.eventTypes');
     Route::get('/event-types/create', [EventTypeController::class, 'create']);
     Route::post('/event-types', [EventTypeController::class, 'store']);
     Route::get('/event-types/{eventType}/edit', [EventTypeController::class, 'edit']);
     Route::put('/event-types/{eventType}', [EventTypeController::class, 'update']);
 
+    Route::post('/booking/accept', [BookingController::class, 'accept'])->name('booking.accept');
+    Route::post('/booking/reject', [BookingController::class, 'reject'])->name('booking.reject');
 
     Route::get('/event-types/{eventType}/availability', [AvailabilityController::class, 'index']);
     Route::post('/event-types/{eventType}/availability', [AvailabilityController::class, 'store']);

@@ -22,8 +22,8 @@
                 class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Agenda</a>
         </div>
         <div class="py-4 h-full whitespace-nowrap" id="kalender">
-            <a href="/dashboard/kalender"
-                class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Kalender</a>
+            <a href="/jadwal"
+                class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Jadwal</a>
         </div>
         <div class="py-4 h-full whitespace-nowrap" id="mendatang">
             <a href="/dashboard/mendatang"
