@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
 use Illuminate\Support\Facades\DB;
+use App\Mail\BookingAcceptedMail;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -105,7 +107,7 @@ class BookingController extends Controller
                 'guest_timezone' => $data['guest_timezone'] ?? null,
                 'starts_at' => $startsAtUtc,
                 'ends_at' => $endsAtUtc,
-                'status' => 'scheduled',
+                'status' => 'proposed',
             ]);
         });
 
@@ -135,13 +137,17 @@ class BookingController extends Controller
     public function accept(Request $request)
     {
         $booking = Booking::findOrFail($request->input('id'));
+        $booking->load('eventType');
 
-        if (Auth::user()->id !== $booking->eventType()->user_id) {
+        if (Auth::user()->id !== $booking->eventType->user_id) {
             abort(403);
-        };
+        }
         
         $booking->status = 'accepted';
         $booking->save();
+
+        Mail::to($booking->guest_email)
+            ->send(new BookingAcceptedMail($booking));
 
         return redirect()->route('dashboard.eventTypes');
     }
@@ -149,11 +155,12 @@ class BookingController extends Controller
     public function reject(Request $request)
     {
         $booking = Booking::findOrFail($request->input('id'));
+        $booking->load('eventType');
 
-        if (Auth::user()->id !== $booking->eventType()->user_id) {
+        if (Auth::user()->id !== $booking->eventType->user_id) {
             abort(403);
-        };
-
+        }
+        
         $booking->status = 'rejected';
         $booking->save();
 
