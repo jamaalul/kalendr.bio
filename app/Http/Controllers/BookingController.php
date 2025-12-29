@@ -142,14 +142,18 @@ class BookingController extends Controller
         if (Auth::user()->id !== $booking->eventType->user_id) {
             abort(403);
         }
-        
-        $booking->status = 'accepted';
+
+        if ($booking->status === 'cancellation_requested') {
+            $booking->status = 'cancelled';
+        } else {
+            $booking->status = 'accepted';
+            Mail::to($booking->guest_email)
+                ->send(new BookingAcceptedMail($booking));
+        }
+
         $booking->save();
 
-        Mail::to($booking->guest_email)
-            ->send(new BookingAcceptedMail($booking));
-
-        return redirect()->route('dashboard.eventTypes');
+        return redirect()->back();
     }
 
     public function reject(Request $request)
@@ -160,10 +164,69 @@ class BookingController extends Controller
         if (Auth::user()->id !== $booking->eventType->user_id) {
             abort(403);
         }
-        
-        $booking->status = 'rejected';
+
+        if ($booking->status === 'cancellation_requested') {
+            $booking->status = 'accepted';
+        } else {
+            $booking->status = 'rejected';
+        }
+
         $booking->save();
 
-        return redirect()->route('dashboard.eventTypes');
+        return redirect()->back();
+    }
+
+    private function validateToken(Booking $booking, string $token): void
+    {
+        abort_if($booking->cancel_token !== $token, 403);
+    }
+
+    public function showCancelForm(Booking $booking, string $token)
+    {
+        $this->validateToken($booking, $token);
+
+        abort_if(
+            $booking->isCancelled() ||
+                $booking->isCompleted(),
+            410
+        );
+
+        return view('booking.cancel', compact('booking', 'token'));
+    }
+
+    public function requestCancellation(
+        Request $request,
+        Booking $booking,
+        string $token
+    ) {
+        $this->validateToken($booking, $token);
+
+        abort_if(
+            ! $booking->canBeCancelledByGuest(),
+            403
+        );
+
+        if ($booking->status === 'proposed') {
+            $booking->update([
+                'status' => 'cancellation_requested'
+            ]);
+        } else {
+            $booking->update([
+                'status' => 'cancellation_requested',
+            ]);
+        }
+
+        return view('booking.cancellation-requested', compact('booking'));
+    }
+
+    public function cancellations()
+    {
+        $bookings = Booking::whereHas('eventType', function ($q) {
+            $q->where('user_id', Auth::id());
+        })->where('status', 'cancellation_requested')->with('eventType')->get();
+
+        $state = 'pembatalan';
+
+        return view('dashboard.cancellations.index', compact('bookings', 'state'));
     }
 }

@@ -1,73 +1,117 @@
 <?php
 
-use App\Http\Controllers\{
-    ProfileController,
-    EventTypeController,
-    AvailabilityController,
-    BookingController
-};
+
+
+use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\EventTypeController;
+
+use App\Http\Controllers\AvailabilityController;
+
+use App\Http\Controllers\BookingController;
+
 use Illuminate\Support\Facades\Route;
+
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Public Routes
-|--------------------------------------------------------------------------
-*/
+
+
+
 
 Route::get('/', function () {
+
     return Auth::check() ? redirect('/dashboard') : view('landing');
 });
 
-// Public Booking Process
-Route::controller(BookingController::class)->group(function () {
-    Route::get('/{username}/{eventTypeSlug}', 'show')->name('bookings.show');
-    Route::post('/{username}/{eventTypeSlug}/book', 'book')->name('bookings.submit');
-    Route::get('/{username}/{eventTypeSlug}/book/{booking}', 'confirmation')->name('bookings.confirmation');
+
+
+Route::get('/dashboard', function () {
+
+    $state = 'dashboard';
+
+    return view('dashboard.index', compact('state'));
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 
 /*
-|--------------------------------------------------------------------------
-| Authenticated Dashboard Routes
-|--------------------------------------------------------------------------
+
+ |--------------------------------------------------------------------------
+
+ | EventType and Availability
+
+ |--------------------------------------------------------------------------
+
 */
 
-Route::middleware(['auth', 'verified'])->group(function () {
 
-    // Dashboard Home
-    Route::get('/dashboard', function () {
-        return view('dashboard.index', ['state' => 'dashboard']);
-    })->name('dashboard');
 
-    // Profile Management
-    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', 'edit')->name('edit');
-        Route::patch('/', 'update')->name('update');
-        Route::delete('/', 'destroy')->name('destroy');
-    });
+Route::middleware(['auth'])->group(function () {
 
-    // Event Types Management
-    Route::prefix('event-types')->name('event-types.')->group(function () {
-        Route::controller(EventTypeController::class)->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::get('/create', 'create')->name('create');
-            Route::post('/', 'store')->name('store');
-            Route::get('/{eventType}/edit', 'edit')->name('edit');
-            Route::put('/{eventType}', 'update')->name('update');
-        });
 
-        // Nested Availability (related to a specific Event Type)
-        Route::controller(AvailabilityController::class)->group(function () {
-            Route::get('/{eventType}/availability', 'index')->name('availability.index');
-            Route::post('/{eventType}/availability', 'store')->name('availability.store');
-        });
-    });
 
-    // Internal Booking Actions (Accept/Reject)
-    Route::controller(BookingController::class)->prefix('bookings')->name('booking.')->group(function () {
-        Route::post('/accept', 'accept')->name('accept');
-        Route::post('/reject', 'reject')->name('reject');
-    });
+    Route::get('/event-types', [EventTypeController::class, 'index'])->name('event-types.index');
+
+    Route::get('/event-types/create', [EventTypeController::class, 'create'])->name('event-types.create');
+
+    Route::post('/event-types', [EventTypeController::class, 'store']);
+
+    Route::get('/event-types/{eventType}/edit', [EventTypeController::class, 'edit']);
+
+    Route::put('/event-types/{eventType}', [EventTypeController::class, 'update']);
+
+
+
+    Route::post('/booking/accept', [BookingController::class, 'accept'])->name('booking.accept');
+
+    Route::post('/booking/reject', [BookingController::class, 'reject'])->name('booking.reject');
+
+    Route::get('/cancellation', [BookingController::class, 'cancellations'])->name('cancellations.index');
+
+
+
+    Route::get('/event-types/{eventType}/availability', [AvailabilityController::class, 'index']);
+
+    Route::post('/event-types/{eventType}/availability', [AvailabilityController::class, 'store']);
 });
+
+
+
+/*
+
+ |--------------------------------------------------------------------------
+
+ | Public Booking
+
+ |--------------------------------------------------------------------------
+
+*/
+
+
+
+Route::get('/{username}/{eventTypeSlug}', [BookingController::class, 'show']);
+
+Route::post('/{username}/{eventTypeSlug}/book', [BookingController::class, 'book']);
+
+Route::get('/{username}/{eventTypeSlug}/book/{booking}', [BookingController::class, 'confirmation'])->name('booking.confirmation');
+
+Route::get('/booking/{booking}/cancel/{token}', [BookingController::class, 'showCancelForm'])->name('guest.booking.cancel.form');
+
+Route::post('/booking/{booking}/cancel/{token}', [BookingController::class, 'requestCancellation'])->name('guest.booking.cancel.request');
+
+
 
 require __DIR__ . '/auth.php';

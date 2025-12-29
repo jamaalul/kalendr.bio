@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->string('cancel_token', 64)->unique()->nullable();
             $table->foreignId('event_type_id')->constrained()->cascadeOnDelete();
             $table->string('guest_name');
             $table->string('guest_email');
