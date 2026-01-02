@@ -76,6 +76,42 @@
                         </select>
                     </div>
 
+                    <div class="gap-4 grid grid-cols-1 md:grid-cols-3">
+                        <div>
+                            <label for="minimum_notice_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
+                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Waktu Pemberitahuan Minimum (menit)
+                            </label>
+                            <input type="number" name="minimum_notice_minutes" id="minimum_notice_minutes" min="0" value="0"
+                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                                placeholder="Misal: 240 (4 jam)">
+                        </div>
+                        <div>
+                            <label for="before_slot_padding_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
+                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path>
+                                </svg>
+                                Gap Sebelum (menit)
+                            </label>
+                            <input type="number" name="before_slot_padding_minutes" id="before_slot_padding_minutes" min="0" value="0"
+                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                                placeholder="Misal: 15">
+                        </div>
+                        <div>
+                            <label for="after_slot_padding_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
+                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Gap Sesudah (menit)
+                            </label>
+                            <input type="number" name="after_slot_padding_minutes" id="after_slot_padding_minutes" min="0" value="0"
+                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                                placeholder="Misal: 15">
+                        </div>
+                    </div>
+
                     <div>
                         <label for="is_active" class="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active" value="1" checked

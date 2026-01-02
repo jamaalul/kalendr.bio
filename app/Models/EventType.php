@@ -15,6 +15,9 @@ class EventType extends Model
         'name',
         'slug',
         'duration_minutes',
+        'minimum_notice_minutes',
+        'before_slot_padding_minutes',
+        'after_slot_padding_minutes',
         'timezone',
         'is_active',
     ];

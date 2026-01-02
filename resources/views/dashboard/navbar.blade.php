@@ -12,26 +12,43 @@
             </svg>
         </div>
     </div>
+
     <div class="flex items-center gap-3 md:gap-5 w-full overflow-x-auto">
         <div class="py-4 h-full whitespace-nowrap" id="dashboard">
             <a href="/dashboard"
                 class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Dashboard</a>
         </div>
+
         <div class="py-4 h-full whitespace-nowrap" id="agenda">
             <a href="/event-types"
                 class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Agenda</a>
         </div>
-        <div class="py-4 h-full whitespace-nowrap" id="permintaan">
+
+        <div class="relative flex items-center py-4 pr-2 h-full whitespace-nowrap" id="permintaan">
             <a href="/proposal"
                 class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Permintaan</a>
+            @if ($pendingBookingCount > 0)
+                <span
+                    class="top-3 -right-1 absolute flex justify-center items-center rounded-full w-4 h-4 font-bold text-green-600 text-xs">
+                    {{ $pendingBookingCount }}
+                </span>
+            @endif
         </div>
-        <div class="py-4 h-full whitespace-nowrap" id="pembatalan">
+
+        <div class="relative flex items-center py-4 pr-2 h-full whitespace-nowrap" id="pembatalan">
             <a href="/cancellation"
                 class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Pembatalan</a>
+            @if ($pendingCancellationCount > 0)
+                <span
+                    class="top-3 -right-1 absolute flex justify-center items-center rounded-full w-4 h-4 font-bold text-green-600 text-xs">
+                    {{ $pendingCancellationCount }}
+                </span>
+            @endif
         </div>
     </div>
 
     <script>
+        // No changes needed here, structure preserves the <a> as the first child
         document.getElementById('{{ $state }}').classList.add('border-b-[3px]', 'border-black')
         document.getElementById('{{ $state }}').firstElementChild.style.color = 'black';
     </script>

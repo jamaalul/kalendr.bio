@@ -85,9 +85,11 @@ class BookingController extends Controller
 
         // Transaction + overlap check
         $booking = DB::transaction(function () use ($eventType, $startsAtUtc, $endsAtUtc, $data) {
-            // Check concurrent overlap again with db
-            $overlap = Booking::where('event_type_id', $eventType->id)
-                ->where('status', 'scheduled')
+            // Check concurrent overlap again with db (across all of the user's event types)
+            $overlap = Booking::whereHas('eventType', function ($q) use ($eventType) {
+                $q->where('user_id', $eventType->user_id);
+            })
+                ->whereIn('status', ['scheduled', 'accepted', 'proposed'])
                 ->where(function ($q) use ($startsAtUtc, $endsAtUtc) {
                     $q->where('starts_at', '<', $endsAtUtc)
                         ->where('ends_at', '>', $startsAtUtc);

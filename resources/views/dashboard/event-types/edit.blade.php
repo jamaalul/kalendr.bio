@@ -49,6 +49,39 @@
                         <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
+                <div class="gap-4 grid grid-cols-1 md:grid-cols-3">
+                    <div>
+                        <label for="minimum_notice_minutes" class="block font-medium text-gray-700 text-sm">Waktu Pemberitahuan Minimum (menit)</label>
+                        <input type="number" name="minimum_notice_minutes" id="minimum_notice_minutes" min="0"
+                            value="{{ old('minimum_notice_minutes', $eventType->minimum_notice_minutes) }}"
+                            class="block shadow-sm mt-1 px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:outline-none focus:ring-indigo-500 w-full"
+                            placeholder="Misal: 240 (4 jam)">
+                        @error('minimum_notice_minutes')
+                            <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label for="before_slot_padding_minutes" class="block font-medium text-gray-700 text-sm">Gap Sebelum (menit)</label>
+                        <input type="number" name="before_slot_padding_minutes" id="before_slot_padding_minutes" min="0"
+                            value="{{ old('before_slot_padding_minutes', $eventType->before_slot_padding_minutes) }}"
+                            class="block shadow-sm mt-1 px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:outline-none focus:ring-indigo-500 w-full"
+                            placeholder="Misal: 15">
+                        @error('before_slot_padding_minutes')
+                            <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label for="after_slot_padding_minutes" class="block font-medium text-gray-700 text-sm">Gap Sesudah (menit)</label>
+                        <input type="number" name="after_slot_padding_minutes" id="after_slot_padding_minutes" min="0"
+                            value="{{ old('after_slot_padding_minutes', $eventType->after_slot_padding_minutes) }}"
+                            class="block shadow-sm mt-1 px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:outline-none focus:ring-indigo-500 w-full"
+                            placeholder="Misal: 15">
+                        @error('after_slot_padding_minutes')
+                            <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
                 <div>
                     <label for="is_active" class="flex items-center gap-2 p-2 cursor-pointer">
                         <input type="checkbox" name="is_active" id="is_active" value="1"

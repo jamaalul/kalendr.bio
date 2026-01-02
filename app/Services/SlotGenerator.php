@@ -34,16 +34,27 @@ class SlotGenerator
         // Load availabilities once
         $availabilities = $eventType->eventTypeAvailabilities; // collection of EventTypeAvailability
 
-        // Preload existing bookings for the event in the UTC window (cover entire period)
-        $existingBookings = Booking::where('event_type_id', $eventType->id)
-            ->where('status', 'scheduled')
+        // Preload existing bookings for the user in the UTC window (cover entire period)
+        $existingBookings = Booking::whereHas('eventType', function ($q) use ($eventType) {
+            $q->where('user_id', $eventType->user_id);
+        })
+            ->whereIn('status', ['scheduled', 'accepted', 'proposed'])
             ->where(function ($q) use ($from, $to) {
-                $q->whereBetween('starts_at', [$from->copy()->subMinutes(1), $to->copy()->addMinutes(1)])
-                    ->orWhereBetween('ends_at', [$from->copy()->subMinutes(1), $to->copy()->addMinutes(1)])
+                // Buffer the range slightly to catch bookings that might overlap via padding
+                $q->whereBetween('starts_at', [$from->copy()->subMinutes(120), $to->copy()->addMinutes(120)])
+                    ->orWhereBetween('ends_at', [$from->copy()->subMinutes(120), $to->copy()->addMinutes(120)])
                     ->orWhere(function ($q2) use ($from, $to) {
                         $q2->where('starts_at', '<', $from)->where('ends_at', '>', $to);
                     });
             })->get();
+
+        $minimumNotice = $eventType->minimum_notice_minutes ?? 0;
+        $beforePadding = $eventType->before_slot_padding_minutes ?? 0;
+        $afterPadding = $eventType->after_slot_padding_minutes ?? 0;
+
+        // Current time for notice check - ALWAYS USE UTC
+        $nowUtc = Carbon::now('UTC');
+        $earliestPossibleStartUtc = $nowUtc->copy()->addMinutes($minimumNotice);
 
         // iterate day-by-day in event timezone
         $cursor = $fromInEventTz->copy();
@@ -66,36 +77,54 @@ class SlotGenerator
                 // iterate slots in this window
                 $slotStart = $startDateTime->copy();
 
-                while ($slotStart->addMinutes(0)->lte($endDateTime->copy()->subMinutes($duration))) {
+                while ($slotStart->copy()->lte($endDateTime->copy()->subMinutes($duration))) {
                     $slotEnd = $slotStart->copy()->addMinutes($duration);
 
                     // Convert slot to UTC for storage/comparison
                     $slotStartUtc = $slotStart->copy()->setTimezone('UTC');
                     $slotEndUtc = $slotEnd->copy()->setTimezone('UTC');
 
-                    // Check if slot in global requested range (use UTC boundaries)
+                    // 1. Check Minimum Notice (against UTC)
+                    if ($slotStartUtc->lt($earliestPossibleStartUtc)) {
+                        // If it's too early, move forward. Using duration as a safe step.
+                        $slotStart->addMinutes($duration); 
+                        continue;
+                    }
+
+                    // 2. Check if slot in global requested range (use UTC boundaries)
                     if ($slotEndUtc->lt($from->copy()->setTimezone('UTC')) || $slotStartUtc->gt($to->copy()->setTimezone('UTC'))) {
-                        // outside requested UTC window
                         $slotStart->addMinutes($duration);
                         continue;
                     }
 
-                    // Check overlap with existing bookings (in UTC)
-                    $overlaps = $existingBookings->first(function ($b) use ($slotStartUtc, $slotEndUtc) {
-                        return $b->starts_at->lt($slotEndUtc) && $b->ends_at->gt($slotStartUtc);
+                    // 3. Check overlap with existing bookings (in UTC)
+                    // We need to account for padding around the slot we're trying to place
+                    $paddedSlotStartUtc = $slotStartUtc->copy()->subMinutes($beforePadding);
+                    $paddedSlotEndUtc = $slotEndUtc->copy()->addMinutes($afterPadding);
+
+                    $overlaps = $existingBookings->first(function ($b) use ($paddedSlotStartUtc, $paddedSlotEndUtc) {
+                        return $b->starts_at->lt($paddedSlotEndUtc) && $b->ends_at->gt($paddedSlotStartUtc);
                     });
 
                     if (!$overlaps) {
                         $slots->push([
                             'starts_at_utc' => $slotStartUtc->copy(),
                             'ends_at_utc' => $slotEndUtc->copy(),
-                            // include event tz instance if you want to display in event timezone
                             'starts_at_event_tz' => $slotStart->copy(),
                             'ends_at_event_tz' => $slotEnd->copy(),
                         ]);
                     }
 
-                    $slotStart->addMinutes($duration);
+                    // Move to next potential slot. 
+                    // To ensure gaps, we jump by (duration + 1 minute) at least.
+                    // But if we want back-to-back available slots to ALREADY respect padding,
+                    // then Slot 2 should start at Slot 1 End + AfterPadding + BeforePadding.
+                    // However, that might be too aggressive if the host wants slots every 15m.
+                    // Let's stick to a small step (e.g. 15m if duration > 15, or duration) 
+                    // OR just move by a fixed interval like 15 or 30 mins to show more options.
+                    // For now, let's use 15 minutes as a common "slot granularity" or duration.
+                    $step = min($duration, 15);
+                    $slotStart->addMinutes($step);
                 }
             }
 

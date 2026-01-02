@@ -32,6 +32,9 @@ class EventTypeController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'duration_minutes' => 'required|integer|min:5|max:480',
+            'minimum_notice_minutes' => 'nullable|integer|min:0',
+            'before_slot_padding_minutes' => 'nullable|integer|min:0',
+            'after_slot_padding_minutes' => 'nullable|integer|min:0',
             'timezone' => 'required|timezone',
             'is_active' => 'nullable|boolean',
             'availability' => 'nullable|array',
@@ -47,6 +50,9 @@ class EventTypeController extends Controller
             $eventType = Auth::user()->eventTypes()->create([
                 'name' => $validated['name'],
                 'duration_minutes' => $validated['duration_minutes'],
+                'minimum_notice_minutes' => $validated['minimum_notice_minutes'] ?? 0,
+                'before_slot_padding_minutes' => $validated['before_slot_padding_minutes'] ?? 0,
+                'after_slot_padding_minutes' => $validated['after_slot_padding_minutes'] ?? 0,
                 'timezone' => $validated['timezone'],
                 'is_active' => $request->has('is_active') ? true : false,
             ]);
@@ -97,6 +103,9 @@ class EventTypeController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'duration_minutes' => 'required|integer|min:5|max:480',
+            'minimum_notice_minutes' => 'nullable|integer|min:0',
+            'before_slot_padding_minutes' => 'nullable|integer|min:0',
+            'after_slot_padding_minutes' => 'nullable|integer|min:0',
             'timezone' => 'required|timezone',
             'is_active' => 'nullable|boolean',
             'availability' => 'nullable|array',
@@ -112,6 +121,9 @@ class EventTypeController extends Controller
             $eventType->update([
                 'name' => $validated['name'],
                 'duration_minutes' => $validated['duration_minutes'],
+                'minimum_notice_minutes' => $validated['minimum_notice_minutes'] ?? 0,
+                'before_slot_padding_minutes' => $validated['before_slot_padding_minutes'] ?? 0,
+                'after_slot_padding_minutes' => $validated['after_slot_padding_minutes'] ?? 0,
                 'timezone' => $validated['timezone'],
                 'is_active' => $request->has('is_active') ? true : false,
             ]);
