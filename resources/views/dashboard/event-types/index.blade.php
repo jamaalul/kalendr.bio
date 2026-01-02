@@ -5,8 +5,8 @@
 @section('content')
 
     <div class="flex flex-col gap-4 bg-red w-full lg:max-w-[80%] h-96">
-        <div class="flex justify-between items-center w-full">
-            <h1 class="font-semibold text-md md:text-xl">Daftar Agenda</h1>
+        <div class="flex justify-between w-full">
+            <h1 class="font-semibold text-xl md:text-2xl">Daftar Agenda</h1>
             <button
                 class="flex justify-center items-center gap-2 bg-black hover:bg-gray-800 px-3 py-2 rounded-md font-medium text-white text-sm md:text-base transition-all duration-200"
                 onclick="window.location.href = '{{ route('event-types.create') }}'">
@@ -19,7 +19,7 @@
         </div>
         <div class="gap-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
             @foreach ($agendas as $agenda)
-                <div class="relative flex flex-col justify-between gap-4 bg-white hover:shadow-md p-5 border rounded-md lg:h-48 hover:scale-[102%] transition-all duration-200 cursor-pointer"
+                <div class="relative flex flex-col justify-between gap-4 bg-white hover:shadow-md p-4 border rounded-md lg:h-48 hover:scale-[102%] transition-all duration-200 cursor-pointer"
                     onclick="window.location.href='/event-types/{{ $agenda['id'] }}/edit'">
 
                     {{-- Delete Button --}}
@@ -44,7 +44,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
                         </svg>
-                        <h3 class="font-medium text-lg lg:text-xl truncate">{{ $agenda->name }}</h3>
+                        <h3 class="font-medium text-base truncate">{{ $agenda->name }}</h3>
                     </div>
                     <div class="flex flex-col gap-2 h-fit">
                         <div class="flex items-center gap-2">
@@ -60,16 +60,16 @@
             @endforeach
         </div>
         <div class="flex flex-col gap-4 mt-4 pb-2 md:pb-4 w-full">
-            <h1 class="font-semibold text-md md:text-xl">Janji Diterima</h1>
+            <h2 class="font-semibold text-lg">Janji Diterima</h2>
             @foreach ($bookings as $booking)
                 <div
-                    class="flex justify-between items-center bg-white hover:shadow-sm p-6 border border-gray-200 rounded-md w-full transition-shadow duration-300">
+                    class="flex justify-between items-center bg-white hover:shadow-sm p-4 border border-gray-200 rounded-md w-full transition-shadow duration-300">
                     <div class="space-y-1">
                         <div class="flex items-center gap-2">
                             <span
                                 class="font-medium text-gray-400 text-sm tracking-wide">{{ $booking->eventType->name }}</span>
                         </div>
-                        <h3 class="font-semibold text-gray-900 text-lg tracking-tight">{{ $booking->guest_name }}</h3>
+                        <h3 class="font-semibold text-gray-900 text-base tracking-tight">{{ $booking->guest_name }}</h3>
                         <p class="font-medium text-gray-500 text-sm italic">{{ $booking->guest_email }}</p>
 
                         <div class="flex items-center gap-2 mt-2 pt-2 border-t text-gray-600 text-sm">

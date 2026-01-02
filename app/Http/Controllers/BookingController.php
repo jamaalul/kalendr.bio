@@ -225,7 +225,7 @@ class BookingController extends Controller
             $q->where('user_id', Auth::id());
         })->where('status', 'proposed')->with('eventType')->get();
 
-        $state = 'proposals';
+        $state = 'permintaan';
 
         return view('dashboard.proposals.index', compact('bookings', 'state'));
     }

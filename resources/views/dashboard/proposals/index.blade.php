@@ -1,21 +1,23 @@
 @extends('dashboard.layout')
 
-@section('title', 'kalendr | Proposals')
+@section('title', 'kalendr | Permintaan')
 
 @section('content')
 
     <div class="flex flex-col gap-4 bg-red w-full lg:max-w-[80%] h-96">
+        <div class="flex justify-between items-center w-full">
+            <h1 class="font-semibold text-xl md:text-2xl">Permintaan Janji Temu</h1>
+        </div>
         <div class="flex flex-col gap-4 mt-4 pb-2 md:pb-4 w-full">
-            <h1 class="font-semibold text-md md:text-xl">Janji Baru</h1>
             @foreach ($bookings as $booking)
                 <div
-                    class="flex justify-between items-center bg-white hover:shadow-sm p-6 border border-gray-200 rounded-md w-full transition-shadow duration-300">
+                    class="flex justify-between items-center bg-white hover:shadow-sm p-4 border border-gray-200 rounded-md w-full transition-shadow duration-300">
                     <div class="space-y-1">
                         <div class="flex items-center gap-2">
                             <span
                                 class="font-medium text-gray-400 text-sm tracking-wide">{{ $booking->eventType->name }}</span>
                         </div>
-                        <h3 class="font-semibold text-gray-900 text-lg tracking-tight">{{ $booking->guest_name }}</h3>
+                        <h3 class="font-semibold text-gray-900 text-base tracking-tight">{{ $booking->guest_name }}</h3>
                         <p class="font-medium text-gray-500 text-sm italic">{{ $booking->guest_email }}</p>
 
                         <div class="flex items-center gap-2 mt-2 pt-2 border-t text-gray-600 text-sm">
