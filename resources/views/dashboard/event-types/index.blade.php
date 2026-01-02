@@ -21,15 +21,14 @@
             @foreach ($agendas as $agenda)
                 <div class="relative flex flex-col justify-between gap-4 bg-white hover:shadow-md p-5 border rounded-md lg:h-48 hover:scale-[102%] transition-all duration-200 cursor-pointer"
                     onclick="window.location.href='/event-types/{{ $agenda['id'] }}/edit'">
-                    
+
                     {{-- Delete Button --}}
                     <div class="top-4 right-4 absolute" onclick="event.stopPropagation();">
                         <form action="{{ route('event-types.destroy', $agenda['id']) }}" method="POST"
                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus agenda ini?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit"
-                                class="text-gray-400 hover:text-red-500 transition-colors duration-200">
+                            <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5 md:size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -61,7 +60,7 @@
             @endforeach
         </div>
         <div class="flex flex-col gap-4 mt-4 pb-2 md:pb-4 w-full">
-            <h1 class="font-semibold text-md md:text-xl">Janji Baru</h1>
+            <h1 class="font-semibold text-md md:text-xl">Janji Diterima</h1>
             @foreach ($bookings as $booking)
                 <div
                     class="flex justify-between items-center bg-white hover:shadow-sm p-6 border border-gray-200 rounded-md w-full transition-shadow duration-300">
@@ -98,25 +97,6 @@
                                     class="ml-1 text-gray-400">({{ $tzMap[Auth::user()->timezone] ?? Auth::user()->timezone }})</span>
                             </span>
                         </div>
-                    </div>
-
-                    <div class="flex flex-col gap-3 h-full">
-                        <form action="{{ route('booking.accept') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $booking->id }}">
-                            <button type="submit"
-                                class="bg-black hover:bg-gray-800 shadow-sm px-5 py-2 rounded-lg font-medium text-white text-sm active:scale-95 transition-all">
-                                Terima
-                            </button>
-                        </form>
-                        <form action="{{ route('booking.reject') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $booking->id }}">
-                            <button type="submit"
-                                class="hover:bg-red-100 px-5 py-2 rounded-lg w-full font-medium text-red-500 text-sm active:scale-95 transition-all">
-                                Tolak
-                            </button>
-                        </form>
                     </div>
                 </div>
             @endforeach

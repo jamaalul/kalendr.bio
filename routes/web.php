@@ -78,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/booking/reject', [BookingController::class, 'reject'])->name('booking.reject');
 
+    Route::get('/proposal', [BookingController::class, 'proposals'])->name('proposals.index');
+
     Route::get('/cancellation', [BookingController::class, 'cancellations'])->name('cancellations.index');
 
 

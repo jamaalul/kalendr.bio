@@ -219,6 +219,17 @@ class BookingController extends Controller
         return view('booking.cancellation-requested', compact('booking'));
     }
 
+    public function proposals()
+    {
+        $bookings = Booking::whereHas('eventType', function ($q) {
+            $q->where('user_id', Auth::id());
+        })->where('status', 'proposed')->with('eventType')->get();
+
+        $state = 'proposals';
+
+        return view('dashboard.proposals.index', compact('bookings', 'state'));
+    }
+
     public function cancellations()
     {
         $bookings = Booking::whereHas('eventType', function ($q) {
