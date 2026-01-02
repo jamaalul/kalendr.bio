@@ -25,12 +25,9 @@ Route::get('/', function () {
 
 
 
-Route::get('/dashboard', function () {
-
-    $state = 'dashboard';
-
-    return view('dashboard.index', compact('state'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 
@@ -72,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/event-types/{eventType}/edit', [EventTypeController::class, 'edit']);
 
     Route::put('/event-types/{eventType}', [EventTypeController::class, 'update']);
+
+    Route::delete('/event-types/{eventType}', [EventTypeController::class, 'destroy'])->name('event-types.destroy');
 
 
 

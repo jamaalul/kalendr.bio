@@ -194,4 +194,36 @@ class EventTypeController extends Controller
             }
         }
     }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(EventType $eventType)
+    {
+        // Ensure user can only delete their own event types
+        if ($eventType->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Check if there are any bookings associated with this event type
+        if ($eventType->bookings()->exists()) {
+            return back()->with('error', 'Tidak dapat menghapus agenda karena sudah ada janji temu yang terhubung.');
+        }
+
+        DB::beginTransaction();
+        try {
+            // Availabilities will be deleted via cascade if set up in DB, 
+            // but we can explicitly delete them here to be safe and clear.
+            $eventType->eventTypeAvailabilities()->delete();
+            
+            // Delete the event type
+            $eventType->delete();
+
+            DB::commit();
+
+            return redirect()->route('event-types.index')->with('success', 'Agenda berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus agenda: ' . $e->getMessage());
+        }
+    }
 }

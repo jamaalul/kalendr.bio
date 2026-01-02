@@ -13,6 +13,19 @@
     @include('dashboard.navbar', ['state' => $state ?? 'agenda'])
     <div
         class="flex flex-col flex-1 items-center bg-gray-100 mx-2 md:mx-4 mb-2 md:mb-4 p-2 md:p-4 border rounded-lg overflow-y-scroll">
+        @if (session('success'))
+            <div class="mb-4 bg-green-100 border border-green-400 px-4 py-3 rounded text-green-700 relative w-full lg:max-w-[80%]" role="alert">
+                <strong class="font-bold">Berhasil!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="mb-4 bg-red-100 border border-red-400 px-4 py-3 rounded text-red-700 relative w-full lg:max-w-[80%]" role="alert">
+                <strong class="font-bold">Gagal!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
         @yield('content')
     </div>
 </body>

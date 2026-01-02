@@ -39,6 +39,11 @@ class EventType extends Model
         return $this->hasMany(EventTypeAvailability::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     /*
      |--------------------------------------------------------------------------
      | Model Hooks
