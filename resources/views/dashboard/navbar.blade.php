@@ -45,6 +45,11 @@
                 </span>
             @endif
         </div>
+
+        <div class="py-4 h-full whitespace-nowrap" id="libur">
+            <a href="/exceptions"
+                class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Libur</a>
+        </div>
     </div>
 
     <script>

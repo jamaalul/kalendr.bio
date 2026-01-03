@@ -10,6 +10,8 @@ use App\Http\Controllers\AvailabilityController;
 
 use App\Http\Controllers\BookingController;
 
+use App\Http\Controllers\ExceptionController;
+
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Auth;
@@ -87,6 +89,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/event-types/{eventType}/availability', [AvailabilityController::class, 'index']);
 
     Route::post('/event-types/{eventType}/availability', [AvailabilityController::class, 'store']);
+
+
+
+    // Exception (Libur) Routes
+
+    Route::get('/exceptions', [ExceptionController::class, 'index'])->name('exceptions.index');
+
+    Route::get('/exceptions/create', [ExceptionController::class, 'create'])->name('exceptions.create');
+
+    Route::post('/exceptions', [ExceptionController::class, 'store'])->name('exceptions.store');
+
+    Route::get('/exceptions/{exception}/edit', [ExceptionController::class, 'edit'])->name('exceptions.edit');
+
+    Route::put('/exceptions/{exception}', [ExceptionController::class, 'update'])->name('exceptions.update');
+
+    Route::delete('/exceptions/{exception}', [ExceptionController::class, 'destroy'])->name('exceptions.destroy');
 });
 
 

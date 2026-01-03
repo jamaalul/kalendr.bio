@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\EventType;
 use App\Models\Booking;
+use App\Models\Exception;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
@@ -33,6 +34,17 @@ class SlotGenerator
 
         // Load availabilities once
         $availabilities = $eventType->eventTypeAvailabilities; // collection of EventTypeAvailability
+
+        // Preload exception datetime ranges for the user
+        $exceptions = Exception::where('user_id', $eventType->user_id)
+            ->where(function ($q) use ($from, $to) {
+                // Find exceptions that overlap with the requested range
+                $q->whereBetween('start_datetime', [$from, $to])
+                    ->orWhereBetween('end_datetime', [$from, $to])
+                    ->orWhere(function ($q2) use ($from, $to) {
+                        $q2->where('start_datetime', '<', $from)->where('end_datetime', '>', $to);
+                    });
+            })->get();
 
         // Preload existing bookings for the user in the UTC window (cover entire period)
         $existingBookings = Booking::whereHas('eventType', function ($q) use ($eventType) {
@@ -97,7 +109,18 @@ class SlotGenerator
                         continue;
                     }
 
-                    // 3. Check overlap with existing bookings (in UTC)
+                    // 3. Check overlap with exceptions (datetime ranges)
+                    $overlapsException = $exceptions->first(function ($exc) use ($slotStartUtc, $slotEndUtc) {
+                        return $slotStartUtc->lt($exc->end_datetime) && $slotEndUtc->gt($exc->start_datetime);
+                    });
+
+                    if ($overlapsException) {
+                        $step = min($duration, 15);
+                        $slotStart->addMinutes($step);
+                        continue;
+                    }
+
+                    // 4. Check overlap with existing bookings (in UTC)
                     // We need to account for padding around the slot we're trying to place
                     $paddedSlotStartUtc = $slotStartUtc->copy()->subMinutes($beforePadding);
                     $paddedSlotEndUtc = $slotEndUtc->copy()->addMinutes($afterPadding);

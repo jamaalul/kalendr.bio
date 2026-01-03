@@ -66,6 +66,11 @@ class User extends Authenticatable
         );
     }
 
+    public function exceptions()
+    {
+        return $this->hasMany(Exception::class);
+    }
+
     protected static function booted()
     {
         static::creating(function ($user) {
