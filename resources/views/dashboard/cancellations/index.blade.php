@@ -67,7 +67,14 @@
                     </div>
                 </div>
             @empty
-                <p class="text-gray-500">Tidak ada permintaan pembatalan.</p>
+                <div class="flex flex-col justify-center items-center py-12 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                        stroke="currentColor" class="mb-4 w-16 h-16 text-gray-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <p class="text-gray-500 text-sm">Belum ada permintaan pembatalan</p>
+                    <p class="mt-1 text-gray-400 text-xs">Permintaan pembatalan akan muncul di sini</p>
+                </div>
             @endforelse
         </div>
     </div>

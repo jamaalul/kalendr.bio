@@ -59,6 +59,17 @@
                 </div>
             @endforeach
         </div>
+        @if ($agendas->isEmpty())
+            <div class="flex flex-col justify-center items-center py-12 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                    stroke="currentColor" class="mb-4 w-16 h-16 text-gray-300">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+                </svg>
+                <p class="text-gray-500 text-sm">Belum ada agenda</p>
+                <p class="mt-1 text-gray-400 text-xs">Buat agenda pertama Anda untuk mulai menerima booking</p>
+            </div>
+        @endif
         <div class="flex flex-col gap-4 mt-4 pb-2 md:pb-4 w-full">
             <h2 class="font-semibold text-lg">Janji Diterima</h2>
             @foreach ($bookings as $booking)

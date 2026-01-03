@@ -29,7 +29,7 @@
                 class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Permintaan</a>
             @if ($pendingBookingCount > 0)
                 <span
-                    class="top-3 -right-1 absolute flex justify-center items-center rounded-full w-4 h-4 font-bold text-green-600 text-xs">
+                    class="top-3 -right-1 absolute flex justify-center items-center rounded-full w-4 h-4 font-bold text-black text-xs">
                     {{ $pendingBookingCount }}
                 </span>
             @endif
@@ -40,7 +40,7 @@
                 class="font-medium text-gray-500 hover:text-black text-sm md:text-base no-underline transition-all duration-200">Pembatalan</a>
             @if ($pendingCancellationCount > 0)
                 <span
-                    class="top-3 -right-1 absolute flex justify-center items-center rounded-full w-4 h-4 font-bold text-green-600 text-xs">
+                    class="top-3 -right-1 absolute flex justify-center items-center rounded-full w-4 h-4 font-bold text-black text-xs">
                     {{ $pendingCancellationCount }}
                 </span>
             @endif

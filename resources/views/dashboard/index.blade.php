@@ -11,7 +11,7 @@
                 <h1 class="font-semibold text-gray-900 text-xl md:text-2xl">Kalender Saya</h1>
             </div>
 
-            <div class="bg-white shadow-sm p-4 border rounded-xl w-full text-black" x-data="calendar()"
+            <div class="bg-white shadow-sm p-4 border rounded-md w-full text-black" x-data="calendar()"
                 x-init="initCalendar()">
 
                 {{-- Calendar Header --}}
@@ -20,16 +20,16 @@
                         <span x-text="monthNames[month]" class="font-bold text-gray-800 text-lg"></span>
                         <span x-text="year" class="ml-1 font-normal text-gray-600 text-lg"></span>
                     </div>
-                    <div class="flex items-center gap-2 px-1 py-1 border border-gray-200 rounded-lg">
+                    <div class="flex items-center gap-2 px-1 py-1 border border-gray-200 rounded-md">
                         <button type="button"
-                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1 p-1.5 rounded-md text-gray-600 leading-none transition-colors cursor-pointer"
+                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1 p-1.5 rounded-sm text-gray-600 leading-none transition-colors cursor-pointer"
                             @click="month--; if(month < 0) { month = 11; year--; } getNoOfDays()">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button type="button"
-                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1 p-1.5 rounded-md text-gray-600 leading-none transition-colors cursor-pointer"
+                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1 p-1.5 rounded-sm text-gray-600 leading-none transition-colors cursor-pointer"
                             @click="month++; if(month > 11) { month = 0; year++; } getNoOfDays()">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -168,7 +168,7 @@
                 <div class="flex flex-col gap-3">
                     @forelse($unacceptedBookings as $booking)
                         <div
-                            class="flex flex-col gap-3 bg-white hover:shadow-md p-4 border border-gray-200 rounded-xl transition-all duration-200">
+                            class="flex flex-col gap-3 bg-white hover:shadow-md p-4 border border-gray-200 rounded-md transition-all duration-200">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h3 class="font-semibold text-gray-900 text-base">{{ $booking->guest_name }}</h3>
@@ -204,8 +204,14 @@
                             </div>
                         </div>
                     @empty
-                        <div class="py-8 text-gray-400 text-sm text-center italic">
-                            Tidak ada janji yang menunggu persetujuan.
+                        <div class="flex flex-col justify-center items-center py-12 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                                stroke="currentColor" class="mb-4 w-16 h-16 text-gray-300">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <p class="text-gray-500 text-sm">Belum ada janji yang menunggu persetujuan</p>
+                            <p class="mt-1 text-gray-400 text-xs">Janji yang perlu persetujuan akan muncul di sini</p>
                         </div>
                     @endforelse
                 </div>
@@ -261,8 +267,13 @@
                             </div>
                         </div>
                     @empty
-                        <div class="py-8 text-gray-400 text-sm text-center italic">
-                            Tidak ada permintaan pembatalan.
+                        <div class="flex flex-col justify-center items-center py-12 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                                stroke="currentColor" class="mb-4 w-16 h-16 text-gray-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            <p class="text-gray-500 text-sm">Belum ada permintaan pembatalan</p>
+                            <p class="mt-1 text-gray-400 text-xs">Permintaan pembatalan akan muncul di sini</p>
                         </div>
                     @endforelse
                 </div>

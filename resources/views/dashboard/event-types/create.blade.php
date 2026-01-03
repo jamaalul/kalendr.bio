@@ -3,149 +3,160 @@
 @section('title', 'kalendr | Buat Agenda')
 
 @section('content')
-    <div class="flex flex-col gap-6 mx-auto w-full md:w-[80%]">
-        <!-- Main Form Card -->
-        <div class="bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
-            <div class="px-6 py-4 border-gray-200 border-b">
-                <h2 class="font-semibold text-gray-900 text-xl">Buat Agenda Baru</h2>
-                <p class="mt-1 text-gray-600 text-sm">Isi detail agenda dan atur ketersediaan Anda.</p>
-            </div>
+    <div class="flex flex-col gap-4 w-full lg:max-w-[80%]">
+        <div class="flex items-center gap-4 w-full">
+            <a href="/event-types" class="hover:bg-gray-100 p-2 rounded-lg transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                    class="w-5 h-5 text-gray-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+            </a>
+            <h1 class="font-semibold text-xl md:text-2xl">Buat Agenda</h1>
+        </div>
 
-            <form method="POST" action="/event-types" class="space-y-6 p-6">
-                @csrf
+        <form method="POST" action="/event-types"
+            class="flex flex-col gap-6 bg-white mt-4 p-6 border border-gray-200 rounded-lg">
+            @csrf
 
-                <!-- Basic Information Section -->
-                <div class="space-y-4">
-                    <h3 class="pb-2 border-gray-100 border-b font-medium text-gray-900 text-lg">Informasi Dasar</h3>
+            <!-- Basic Information Section -->
+            <div class="space-y-4">
+                <h3 class="pb-2 border-gray-100 border-b font-medium text-gray-900 text-lg">Informasi Dasar</h3>
 
-                    <div class="gap-4 grid grid-cols-1 md:grid-cols-2">
-                        <div>
-                            <label for="name" class="block mb-1 font-medium text-gray-700 text-sm">
-                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z">
-                                    </path>
-                                </svg>
-                                Nama Agenda
-                            </label>
-                            <input type="text" name="name" id="name"
-                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
-                                required maxlength="255" placeholder="Masukkan nama agenda">
-                        </div>
-
-                        <div>
-                            <label for="duration_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
-                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                Durasi (menit)
-                            </label>
-                            <input type="number" name="duration_minutes" id="duration_minutes" min="5"
-                                max="480"
-                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
-                                required placeholder="30">
-                        </div>
-                    </div>
-
+                <div class="gap-4 grid grid-cols-1 md:grid-cols-2">
                     <div>
-                        <label for="timezone" class="block mb-1 font-medium text-gray-700 text-sm">
+                        <label for="name" class="block mb-1 font-medium text-gray-700 text-sm">
                             <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064">
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z">
                                 </path>
                             </svg>
-                            Zona Waktu
+                            Nama Agenda
                         </label>
-                        <select name="timezone" id="timezone"
+                        <input type="text" name="name" id="name"
                             class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
-                            required>
-                            @foreach ([
-        'Asia/Jakarta' => 'Waktu Indonesia Barat (WIB)',
-        'Asia/Makassar' => 'Waktu Indonesia Tengah (WITA)',
-        'Asia/Jayapura' => 'Waktu Indonesia Timur (WIT)',
-    ] as $tzId => $tzName)
-                                <option value="{{ $tzId }}"
-                                    {{ Auth::user()->timezone === $tzId ? 'selected' : '' }}>
-                                    {{ $tzName }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="gap-4 grid grid-cols-1 md:grid-cols-3">
-                        <div>
-                            <label for="minimum_notice_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
-                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                Waktu Pemberitahuan Minimum (menit)
-                            </label>
-                            <input type="number" name="minimum_notice_minutes" id="minimum_notice_minutes" min="0" value="0"
-                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
-                                placeholder="Misal: 240 (4 jam)">
-                        </div>
-                        <div>
-                            <label for="before_slot_padding_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
-                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path>
-                                </svg>
-                                Gap Sebelum (menit)
-                            </label>
-                            <input type="number" name="before_slot_padding_minutes" id="before_slot_padding_minutes" min="0" value="0"
-                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
-                                placeholder="Misal: 15">
-                        </div>
-                        <div>
-                            <label for="after_slot_padding_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
-                                <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                Gap Sesudah (menit)
-                            </label>
-                            <input type="number" name="after_slot_padding_minutes" id="after_slot_padding_minutes" min="0" value="0"
-                                class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
-                                placeholder="Misal: 15">
-                        </div>
+                            required maxlength="255" placeholder="Masukkan nama agenda">
                     </div>
 
                     <div>
-                        <label for="is_active" class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="is_active" id="is_active" value="1" checked
-                                class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                            <span class="font-medium text-gray-700 text-sm">Aktifkan Agenda</span>
+                        <label for="duration_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
+                            <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Durasi (menit)
                         </label>
-                        <p class="mt-1 text-gray-500 text-sm">Agenda yang tidak aktif tidak akan dapat dibooking oleh orang lain.</p>
-                        @error('is_active')
-                            <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
-                        @enderror
+                        <input type="number" name="duration_minutes" id="duration_minutes" min="5" max="480"
+                            class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                            required placeholder="30">
                     </div>
                 </div>
 
-                <!-- Availability Section -->
-                <div class="space-y-4">
-                    <h3 class="pb-2 border-gray-100 border-b font-medium text-gray-900 text-lg">Ketersediaan</h3>
-                    @php
-                        $availabilitiesByDay = [];
-                    @endphp
-                    @include('dashboard.event-types._availability-fields')
+                <div>
+                    <label for="timezone" class="block mb-1 font-medium text-gray-700 text-sm">
+                        <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064">
+                            </path>
+                        </svg>
+                        Zona Waktu
+                    </label>
+                    <select name="timezone" id="timezone"
+                        class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                        required>
+                        @foreach ([
+            'Asia/Jakarta' => 'Waktu Indonesia Barat (WIB)',
+            'Asia/Makassar' => 'Waktu Indonesia Tengah (WITA)',
+            'Asia/Jayapura' => 'Waktu Indonesia Timur (WIT)',
+        ] as $tzId => $tzName)
+                            <option value="{{ $tzId }}" {{ Auth::user()->timezone === $tzId ? 'selected' : '' }}>
+                                {{ $tzName }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
-                <!-- Submit Button -->
-                <div class="flex justify-end pt-4 border-gray-200 border-t">
-                    <button type="submit"
-                        class="inline-flex items-center bg-black hover:bg-gray-800 px-4 py-2 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 font-medium text-white text-sm transition-colors duration-200">
-                        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 4.5v15m7.5-7.5h-15"></path>
-                        </svg>
-                        Buat Agenda
-                    </button>
+                <div class="gap-4 grid grid-cols-1 md:grid-cols-3">
+                    <div>
+                        <label for="minimum_notice_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
+                            <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Waktu Pemberitahuan Minimum (menit)
+                        </label>
+                        <input type="number" name="minimum_notice_minutes" id="minimum_notice_minutes" min="0"
+                            value="0"
+                            class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                            placeholder="Misal: 240 (4 jam)">
+                    </div>
+                    <div>
+                        <label for="before_slot_padding_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
+                            <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path>
+                            </svg>
+                            Gap Sebelum (menit)
+                        </label>
+                        <input type="number" name="before_slot_padding_minutes" id="before_slot_padding_minutes"
+                            min="0" value="0"
+                            class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                            placeholder="Misal: 15">
+                    </div>
+                    <div>
+                        <label for="after_slot_padding_minutes" class="block mb-1 font-medium text-gray-700 text-sm">
+                            <svg class="inline mr-1 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Gap Sesudah (menit)
+                        </label>
+                        <input type="number" name="after_slot_padding_minutes" id="after_slot_padding_minutes"
+                            min="0" value="0"
+                            class="block shadow-sm px-3 py-2 border border-gray-300 focus:border-indigo-500 rounded-md focus:ring-indigo-500 w-full sm:text-sm"
+                            placeholder="Misal: 15">
+                    </div>
                 </div>
-            </form>
-        </div>
+
+                <div>
+                    <label for="is_active" class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="is_active" id="is_active" value="1" checked
+                            class="border-gray-300 rounded focus:ring-indigo-500 w-4 h-4 text-indigo-600">
+                        <span class="font-medium text-gray-700 text-sm">Aktifkan Agenda</span>
+                    </label>
+                    <p class="mt-1 text-gray-500 text-sm">Agenda yang tidak aktif tidak akan dapat dibooking oleh orang
+                        lain.</p>
+                    @error('is_active')
+                        <p class="mt-1 text-red-600 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <!-- Availability Section -->
+            <div class="space-y-4">
+                <h3 class="pb-2 border-gray-100 border-b font-medium text-gray-900 text-lg">Ketersediaan</h3>
+                @php
+                    $availabilitiesByDay = [];
+                @endphp
+                @include('dashboard.event-types._availability-fields')
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end gap-3 pt-4 border-t">
+                <a href="/event-types"
+                    class="hover:bg-gray-100 px-5 py-2 rounded-lg font-medium text-gray-600 transition-all">
+                    Batal
+                </a>
+                <button type="submit"
+                    class="bg-black hover:bg-gray-800 shadow-sm px-5 py-2 rounded-lg font-medium text-white text-sm active:scale-95 transition-all">
+                    Simpan
+                </button>
+            </div>
+        </form>
     </div>
 @endsection
