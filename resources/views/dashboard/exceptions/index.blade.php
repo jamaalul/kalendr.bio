@@ -17,12 +17,6 @@
             </a>
         </div>
 
-        @if (session('success'))
-            <div class="bg-green-50 p-4 border border-green-200 rounded-md text-green-800 text-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <div class="flex flex-col gap-4 mt-4 pb-2 md:pb-4 w-full">
             @forelse ($exceptions as $exception)
                 <div

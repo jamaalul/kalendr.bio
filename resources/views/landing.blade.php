@@ -126,92 +126,157 @@
 
     <header class="relative mx-auto px-6 pt-40 md:pt-48 pb-20 max-w-5xl md:text-center">
 
-        <div class="flex justify-center mb-8 animate-fade-up">
+        {{-- <div class="flex justify-center mb-8 animate-fade-up">
             <div
                 class="group inline-flex items-center bg-zinc-50/50 hover:bg-white px-3 py-1 border border-zinc-200 hover:border-zinc-300 rounded-full font-medium text-[13px] text-zinc-600 transition-colors cursor-default">
                 <span
                     class="flex bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] mr-2 rounded-full w-1.5 h-1.5"></span>
                 Sekarang tersedia untuk publik
             </div>
-        </div>
+        </div> --}}
 
         <h1
-            class="mx-auto mb-6 max-w-4xl font-semibold text-zinc-900 lg:text-[5rem] text-5xl md:text-7xl text-center leading-[1.05] tracking-tighter animate-fade-up delay-100">
+            class="mx-auto mb-6 max-w-4xl font-semibold text-zinc-900 text-4xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center leading-[1.05] tracking-tighter animate-fade-up delay-100">
             Terima booking,<br>
             <span class="text-zinc-400">Satu link beres.</span>
         </h1>
 
         <p
-            class="mx-auto mb-10 max-w-2xl font-normal text-zinc-500 text-lg md:text-xl leading-relaxed animate-fade-up delay-200">
+            class="mx-auto mb-10 max-w-2xl font-normal text-zinc-500 sm:text-md text-base md:text-lg text-center text-balance leading-relaxed animate-fade-up delay-200">
             Stop chat bolak-balik. Biar kalendr yang handle jadwalmu,<br class="hidden md:block"> kamu fokus ngerjain
             yang penting aja.
         </p>
 
         <div class="flex md:flex-row flex-col justify-center items-center gap-4 animate-fade-up delay-200">
             <a href="/dashboard"
-                class="flex justify-center items-center bg-zinc-900 shadow-xl shadow-zinc-200 hover:shadow-2xl px-8 py-4 rounded-xl w-full md:w-auto font-medium text-[15px] text-white transition-all hover:-translate-y-1">
+                class="flex justify-center items-center bg-zinc-900 shadow-xl shadow-zinc-200 hover:shadow-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-md w-full md:w-auto font-medium text-white sm:text-[15px] text-sm transition-all hover:-translate-y-1">
                 Buat link gratis
             </a>
             <a href="#cara-kerja"
-                class="flex justify-center items-center px-8 py-4 rounded-xl w-full md:w-auto font-medium text-[15px] text-zinc-500 hover:text-zinc-900 transition-all">
+                class="flex justify-center items-center px-6 sm:px-8 py-3 sm:py-4 rounded-xl w-full md:w-auto font-medium text-zinc-500 sm:text-[15px] hover:text-zinc-900 text-sm transition-all">
                 Cara kerjanya →
             </a>
         </div>
 
-        <div class="flex justify-center mt-24 px-4 animate-fade-up delay-200">
-            <div class="relative w-full max-w-md">
-                <div
-                    class="-top-10 -left-10 absolute bg-blue-100 opacity-40 blur-[80px] rounded-full w-64 h-64 mix-blend-multiply">
-                </div>
-                <div
-                    class="-top-10 -right-10 absolute bg-purple-100 opacity-40 blur-[80px] rounded-full w-64 h-64 mix-blend-multiply">
-                </div>
+        <div class="hidden md:flex justify-center mt-24 px-4 animate-fade-up delay-200">
+            <div class="bg-white shadow-2xl mx-auto md:border-2 md:rounded-lg w-full max-w-6xl overflow-hidden">
+                <div class="flex md:flex-row flex-col">
 
-                <div
-                    class="relative bg-white/60 shadow-2xl backdrop-blur-md p-6 border border-zinc-200/80 rounded-2xl ring-1 ring-white/50 overflow-hidden">
-                    <div class="flex justify-between items-center mb-8">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="bg-gradient-to-tr from-zinc-200 to-zinc-100 shadow-sm border border-white rounded-full w-10 h-10">
-                            </div>
-                            <div>
-                                <div class="bg-zinc-800/80 mb-1.5 rounded w-24 h-2.5"></div>
-                                <div class="bg-zinc-200 rounded w-16 h-2"></div>
+                    <div
+                        class="flex flex-col items-start p-8 border-gray-100 md:border-r-2 border-b-2 md:border-b-0 md:w-1/3">
+                        <div class="mb-4 font-medium text-gray-500 text-sm">
+                            John Doe
+                        </div>
+
+                        <h1 class="mb-4 font-bold text-gray-900 text-2xl leading-tight">
+                            Product Demo
+                        </h1>
+
+                        <div class="space-y-3 mb-6 text-gray-500">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="font-medium">45 menit</span>
                             </div>
                         </div>
-                        <div
-                            class="flex justify-center items-center bg-white shadow-sm border border-zinc-100 rounded-full w-8 h-8 text-zinc-300">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                            </svg>
+
+                        {{-- <div class="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+                            {{ $eventType->description }}
+                        </div> --}}
+                    </div>
+
+                    <div class="relative p-8 md:w-2/3 min-h-[500px]">
+                        <h2 class="mb-6 w-full font-bold text-xl text-start">Pilih Tanggal & Waktu</h2>
+
+                        <div class="flex flex-col gap-8">
+                            <div class="w-full">
+                                <div class="flex justify-between items-center mb-6">
+                                    <span class="font-medium text-lg">
+                                        {{ now()->translatedFormat('F Y') }}
+                                    </span>
+                                    <div class="flex gap-2">
+                                        <button class="hover:bg-gray-100 p-2 rounded-full text-gray-400">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 19l-7-7 7-7"></path>
+                                            </svg>
+                                        </button>
+                                        <button class="hover:bg-gray-100 p-2 rounded-full text-gray-400">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="grid grid-cols-7 mb-2 font-semibold text-gray-400 text-xs text-center uppercase">
+                                    <div>Min</div>
+                                    <div>Sen</div>
+                                    <div>Sel</div>
+                                    <div>Rab</div>
+                                    <div>Kam</div>
+                                    <div>Jum</div>
+                                    <div>Sab</div>
+                                </div>
+
+                                @php
+                                    $now = now();
+                                    $year = $now->year;
+                                    $month = $now->month;
+                                    $firstDay = \Carbon\Carbon::create($year, $month, 1);
+                                    $lastDay = $firstDay->copy()->endOfMonth();
+                                    $startWeekday = $firstDay->dayOfWeek; // 0=Sun, 1=Mon, ..., 6=Sat
+                                    $calendarDays = [];
+                                    // Add nulls for days before first day (adjust for Monday start)
+                                    $adjustedStart = $startWeekday == 0 ? 6 : $startWeekday - 1; // Make Monday=0
+                                    for ($i = 0; $i < $adjustedStart; $i++) {
+                                        $calendarDays[] = ['dayOfMonth' => null, 'hasSlots' => false];
+                                    }
+                                    // Add days of the month
+                                    for ($day = 1; $day <= $lastDay->day; $day++) {
+                                        $currentDate = \Carbon\Carbon::create($year, $month, $day);
+                                        $isPast = $currentDate->isBefore($now->toDateString());
+                                        $hasSlots = !$isPast && rand(0, 2) > 0; // Random slots for future days
+                                        $calendarDays[] = ['dayOfMonth' => $day, 'hasSlots' => $hasSlots];
+                                    }
+                                    // Set viewer timezone for demo
+                                    $viewerTz = 'Asia/Jakarta';
+                                @endphp
+                                <div class="gap-1 grid grid-cols-7 text-center">
+                                    {{-- This section would typically loop through your $calendarDays array --}}
+                                    @foreach ($calendarDays as $day)
+                                        <div>
+                                            @if ($day['dayOfMonth'])
+                                                <button
+                                                    class="flex justify-center items-center mx-auto rounded-full w-10 h-10 font-medium text-sm transition-colors {{ $day['hasSlots'] ? 'bg-gray-100 font-bold text-gray-900 hover:border-black hover:border' : 'text-gray-400 cursor-default' }}"
+                                                    {{ !$day['hasSlots'] ? 'disabled' : '' }}>
+                                                    {{ $day['dayOfMonth'] }}
+                                                </button>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <div class="mt-8 text-gray-500 text-xs uppercase tracking-wide">
+                                    <div class="flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9">
+                                            </path>
+                                        </svg>
+                                        Waktu Indonesia Barat (WIB)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="space-y-3">
-                        <div
-                            class="group flex justify-between items-center bg-white shadow-sm px-4 py-3 border border-zinc-200 hover:border-zinc-300 rounded-lg transition-colors cursor-pointer">
-                            <span class="font-medium text-zinc-700 text-sm">Senin, 12 Agt</span>
-                            <span class="font-semibold text-zinc-900 group-hover:text-blue-600 text-sm">09:00</span>
-                        </div>
-                        <div
-                            class="flex justify-between items-center bg-blue-50/50 shadow-sm px-4 py-3 border border-blue-500 rounded-lg cursor-default">
-                            <span class="font-medium text-zinc-900 text-sm">Senin, 12 Agt</span>
-                            <div class="flex items-center gap-2">
-                                <span class="bg-blue-500 rounded-full w-1.5 h-1.5 animate-pulse"></span>
-                                <span class="font-semibold text-blue-700 text-sm">13:00</span>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center bg-zinc-50 opacity-60 px-4 py-3 border border-zinc-100 rounded-lg cursor-not-allowed">
-                            <span class="font-medium text-zinc-400 text-sm">Senin, 12 Agt</span>
-                            <span class="font-medium text-zinc-400 text-sm line-through">15:00</span>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center mt-6">
-                        <div class="bg-zinc-200 rounded-full w-12 h-1"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -333,7 +398,7 @@
                         </svg>
                     </div>
                     <h3 class="font-semibold text-zinc-900 text-xl">Auto Timezone</h3>
-                    <p class="mt-2 text-[15px] text-zinc-500 leading-relaxed">Klien di London lihat jam London. Kamu di
+                    <p class="mt-2 text-[15px] text-zinc-500 leading-relaxed">Klien di Bali lihat jam Bali. Kamu di
                         Jakarta lihat jam Jakarta. Ajaib.</p>
                 </div>
 

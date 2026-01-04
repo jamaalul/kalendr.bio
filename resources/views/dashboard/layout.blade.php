@@ -12,19 +12,26 @@
 <body class="flex flex-col bg-white w-screen max-w-screen min-h-screen overflow-x-hidden">
     @include('dashboard.navbar', ['state' => $state ?? 'agenda'])
     <div
-        class="flex flex-col flex-1 items-center bg-gray-100 mx-2 md:mx-4 mb-2 md:mb-4 p-4 md:p-6 border rounded-lg overflow-y-scroll">
+        class="flex flex-col flex-1 items-center bg-[#eceef1] mx-2 md:mx-4 mb-2 md:mb-4 p-4 md:p-6 border rounded-lg overflow-y-scroll">
         @if (session('success'))
-            <div class="relative bg-green-100 mb-4 px-4 py-3 border border-green-400 rounded w-full lg:max-w-[80%] text-green-700"
-                role="alert">
-                <strong class="font-bold">Berhasil!</strong>
-                <span class="block sm:inline">{{ session('success') }}</span>
+            <div
+                class="flex items-center gap-3 bg-white shadow-sm mb-4 px-4 py-3 border border-gray-200 rounded-lg w-full lg:max-w-[80%]">
+                <div class="bg-emerald-500 rounded-full w-1 h-5"></div>
+
+                <div class="flex-1 font-medium text-[14px] text-gray-700">
+                    {{ session('success') }}
+                </div>
             </div>
         @endif
+
         @if (session('error'))
-            <div class="relative bg-red-100 mb-4 px-4 py-3 border border-red-400 rounded w-full lg:max-w-[80%] text-red-700"
-                role="alert">
-                <strong class="font-bold">Gagal!</strong>
-                <span class="block sm:inline">{{ session('error') }}</span>
+            <div
+                class="flex items-center gap-3 bg-white shadow-sm mb-4 px-4 py-3 border border-gray-200 rounded-lg w-full lg:max-w-[80%]">
+                <div class="bg-red-500 rounded-full w-1 h-5"></div>
+
+                <div class="flex-1 font-medium text-[14px] text-gray-700">
+                    {{ session('error') }}
+                </div>
             </div>
         @endif
 

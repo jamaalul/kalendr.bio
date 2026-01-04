@@ -22,14 +22,14 @@
                     </div>
                     <div class="flex items-center gap-2 px-1 py-1 border border-gray-200 rounded-md">
                         <button type="button"
-                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1 p-1.5 rounded-sm text-gray-600 leading-none transition-colors cursor-pointer"
+                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1.5 rounded-sm text-gray-600 leading-none transition-colors cursor-pointer"
                             @click="month--; if(month < 0) { month = 11; year--; } getNoOfDays()">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button type="button"
-                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1 p-1.5 rounded-sm text-gray-600 leading-none transition-colors cursor-pointer"
+                            class="inline-flex justify-center items-center hover:bg-gray-100 p-1.5 rounded-sm text-gray-600 leading-none transition-colors cursor-pointer"
                             @click="month++; if(month > 11) { month = 0; year++; } getNoOfDays()">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
